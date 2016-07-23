@@ -6,20 +6,18 @@ public class TouchHandler : MonoBehaviour
     public GridCreator gridCreator;
     private bool isAddingObstacle = false;
 
+    private bool moveStart = true;
+
 	// Update is called once per frame
 	void Update () 
     {
         if (Input.GetMouseButton(0))
         {
-            CheckTouched(MouseButton.LEFT);
-        }
-        else if (Input.GetMouseButton(1))
-        {
-            CheckTouched(MouseButton.RIGHT);    
+            CheckTouched();
         }
 	}
 
-    void CheckTouched(MouseButton type)
+    void CheckTouched()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -32,14 +30,16 @@ public class TouchHandler : MonoBehaviour
             if(isAddingObstacle)
             {
                 hitCube.SetObstacle(true);
+                return;
             }
-            else if (type == MouseButton.LEFT)
+                
+            if (moveStart)
             {
                 gridCreator.SetStartCube(hitCube);
             }
-            else if (type == MouseButton.RIGHT)
+            else
             {
-                gridCreator.SetEndCube(hitCube);
+                gridCreator.SetEndCube(hitCube);   
             }
         }
     }
@@ -49,8 +49,8 @@ public class TouchHandler : MonoBehaviour
         isAddingObstacle = !isAddingObstacle;
     }
 
-    enum MouseButton
+    public void SetMoveStart(bool state)
     {
-        LEFT, RIGHT
+        moveStart = state;
     }
 }

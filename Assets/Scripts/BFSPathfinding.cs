@@ -29,6 +29,8 @@ public class BFSPathfinding : MonoBehaviour
     private void RunBFS()
     {
         Cube start = gridCreator.GetStartCube();
+        Cube end = gridCreator.GetEndCube();
+
         frontier.Enqueue(start);
         cameFrom.Add(start, null);
 
@@ -36,6 +38,12 @@ public class BFSPathfinding : MonoBehaviour
         while (frontier.Count != 0)
         {
             current = frontier.Dequeue();
+
+            if (current == end)
+            {
+                break;
+            }
+
             List<Cube> neighbours = current.GetNeighbours();
             neighbours.ForEach(delegate(Cube next)
             {
