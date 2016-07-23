@@ -15,6 +15,8 @@ public class GridCreator : MonoBehaviour
     public float offset = 0.01f;
 
     private static Cube curStartCube;
+    private static Cube curEndCube;
+
     private Transform cubeTransform;
 
     public void Start()
@@ -26,6 +28,7 @@ public class GridCreator : MonoBehaviour
     public void BuildGrid()
     {
         curStartCube = null;
+        curEndCube = null;
 
         Cleanup();
 
@@ -46,6 +49,7 @@ public class GridCreator : MonoBehaviour
         }
 
         SetStartCube(cubes[width/2, height/2]);
+        SetEndCube(cubes[width/3, height/3]);
     }
        
     private void Cleanup()
@@ -98,14 +102,6 @@ public class GridCreator : MonoBehaviour
         }
     }
 
-    public void SetRandomStartCube()
-    {
-        int randX = Random.Range(0, width);
-        int randY = Random.Range(0, height);
-
-        SetStartCube(cubes[randX, randY]);
-    }
-
     public void SetStartCube(Cube cube)
     {
         if (curStartCube)
@@ -122,8 +118,29 @@ public class GridCreator : MonoBehaviour
         }
     }
 
+    public void SetEndCube(Cube cube)
+    {
+        if (curEndCube)
+        {
+            Renderer renderer = curEndCube.GetComponent<Renderer>();
+            renderer.material.color = colorPicker.GetOriginalColor();
+        }
+
+        curEndCube = cube;
+
+        {
+            Renderer renderer = curEndCube.GetComponent<Renderer>();
+            renderer.material.color = colorPicker.GetEndColor();
+        }
+    }
+
     public Cube GetStartCube()
     {
         return curStartCube;
+    }
+
+    public Cube GetEndCube()
+    {
+        return curEndCube;
     }
 }

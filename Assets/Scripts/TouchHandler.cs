@@ -11,11 +11,15 @@ public class TouchHandler : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            CheckTouched();
+            CheckTouched(MouseButton.LEFT);
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            CheckTouched(MouseButton.RIGHT);    
         }
 	}
 
-    void CheckTouched()
+    void CheckTouched(MouseButton type)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -29,9 +33,13 @@ public class TouchHandler : MonoBehaviour
             {
                 hitCube.SetObstacle(true);
             }
-            else
+            else if (type == MouseButton.LEFT)
             {
                 gridCreator.SetStartCube(hitCube);
+            }
+            else if (type == MouseButton.RIGHT)
+            {
+                gridCreator.SetEndCube(hitCube);
             }
         }
     }
@@ -39,5 +47,10 @@ public class TouchHandler : MonoBehaviour
     public void ToggleObstacleCreation()
     {
         isAddingObstacle = !isAddingObstacle;
+    }
+
+    enum MouseButton
+    {
+        LEFT, RIGHT
     }
 }
