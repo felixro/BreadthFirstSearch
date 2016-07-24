@@ -19,7 +19,7 @@ public class GridCreator : MonoBehaviour
 
     private Transform cubeTransform;
 
-    public void Start()
+    public void Awake()
     {
         cubeTransform = transform.FindChild("Cubes");
         BuildGrid();

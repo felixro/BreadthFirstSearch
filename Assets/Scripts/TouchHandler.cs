@@ -34,11 +34,14 @@ public class TouchHandler : MonoBehaviour
             {
                 if (weightSelector)
                 {
-                    hitCube.SetObstacle(weightSelector.GetCurrentWeightColor());
+                    hitCube.SetObstacle(
+                        weightSelector.GetCurrentWeightColor(),
+                        weightSelector.GetCurrentWeight()
+                    );
                 }
                 else
                 {
-                    hitCube.SetObstacle(colorPicker.GetObstacleColor());
+                    hitCube.SetObstacle(colorPicker.GetObstacleColor(), 1);
                 }
 
                 return;

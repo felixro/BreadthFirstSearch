@@ -32,11 +32,15 @@ public class Cube : MonoBehaviour
         return neighbours;
     }
 
-    public void SetObstacle(Color color)
+    public void SetObstacle(Color color, int weight)
     {
         this.isObstacle = true;
 
         PaintCube(color);
+
+        // returns the textmesh even for disabled components
+        TextMesh mesh = GetComponentInChildren<TextMesh>(true);
+        mesh.text = "" + weight;
     }
 
     public bool IsObstacle()
