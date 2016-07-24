@@ -17,8 +17,7 @@ public class WeightSelector : MonoBehaviour
         slider = GetComponent<Slider>();
         sliderImage = GetComponentInChildren<Image>();
 
-        currentColor = colors[0];
-        currentWeight = 1;
+        SetSliderColor(1);
 	}
 	
     public void SetSliderColor(float value)
@@ -27,6 +26,7 @@ public class WeightSelector : MonoBehaviour
         currentColor = colors[currentWeight-1];
 
         ColorBlock colorBlock = slider.colors;
+        colorBlock.normalColor = currentColor;
         colorBlock.pressedColor = currentColor;
         colorBlock.highlightedColor = currentColor;
         slider.colors = colorBlock;
