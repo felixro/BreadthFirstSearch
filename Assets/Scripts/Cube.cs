@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Cube : MonoBehaviour 
-{
-    public ColorPicker colorPicker;
-    
+{    
     private List<Cube> neighbours;
     private bool isObstacle;
     private Renderer renderer;
@@ -34,18 +32,11 @@ public class Cube : MonoBehaviour
         return neighbours;
     }
 
-    public void SetObstacle(bool isObstacle)
+    public void SetObstacle(Color color)
     {
-        this.isObstacle = isObstacle;
+        this.isObstacle = true;
 
-        if(isObstacle)
-        {
-            PaintCube(colorPicker.GetObstacleColor());
-        }
-        else
-        {
-            PaintCube(colorPicker.GetOriginalColor());
-        }
+        PaintCube(color);
     }
 
     public bool IsObstacle()

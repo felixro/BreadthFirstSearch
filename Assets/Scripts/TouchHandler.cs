@@ -4,6 +4,8 @@ using System.Collections;
 public class TouchHandler : MonoBehaviour 
 {	
     public GridCreator gridCreator;
+    public ColorPicker colorPicker;
+
     private bool isAddingObstacle = false;
 
     private bool moveStart = true;
@@ -29,7 +31,8 @@ public class TouchHandler : MonoBehaviour
 
             if(isAddingObstacle)
             {
-                hitCube.SetObstacle(true);
+                hitCube.SetObstacle(colorPicker.GetObstacleColor());
+
                 return;
             }
                 
