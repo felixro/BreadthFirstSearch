@@ -5,6 +5,7 @@ public class TouchHandler : MonoBehaviour
 {	
     public GridCreator gridCreator;
     public ColorPicker colorPicker;
+    public WeightSelector weightSelector;
 
     private bool isAddingObstacle = false;
 
@@ -31,7 +32,14 @@ public class TouchHandler : MonoBehaviour
 
             if(isAddingObstacle)
             {
-                hitCube.SetObstacle(colorPicker.GetObstacleColor());
+                if (weightSelector)
+                {
+                    hitCube.SetObstacle(weightSelector.GetCurrentWeightColor());
+                }
+                else
+                {
+                    hitCube.SetObstacle(colorPicker.GetObstacleColor());
+                }
 
                 return;
             }
