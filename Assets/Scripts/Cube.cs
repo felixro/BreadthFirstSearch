@@ -23,7 +23,6 @@ public class Cube : MonoBehaviour , IComparable<Cube>
 
     public void PaintCube(Color color)
     {
-        
         objRenderer.material.color = color;
     }
 

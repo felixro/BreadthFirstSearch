@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using felixro;
 
-public class BFSPathfinding : MonoBehaviour 
+public class PathFinder : MonoBehaviour 
 {
     public GridCreator gridCreator;
     public ColorPicker colorPicker;
@@ -57,7 +57,9 @@ public class BFSPathfinding : MonoBehaviour
                 {
                     costSoFar[next] = newCost;
 
-                    next.SetWeight(newCost);
+                    int priority = newCost + heuristic(end, next);
+
+                    next.SetWeight(priority);
 
                     frontier.Enqueue(next);
                     cameFrom[next] = current;
@@ -80,11 +82,23 @@ public class BFSPathfinding : MonoBehaviour
         {
             current = cameFrom[current];
             path.Add(current);
+            current.PaintCube(colorPicker.GetVisitedColor());
         }
 
         path.Reverse();
 
         StartCoroutine("FollowPath");
+    }
+
+    private int heuristic(Cube goal, Cube next)
+    {
+        float goalX = goal.transform.position.x;
+        float goalY = goal.transform.position.y;
+
+        float nextX = next.transform.position.x;
+        float nextY = next.transform.position.y;
+
+        return (int)(Mathf.Abs(goalX - nextX) + Mathf.Abs(goalY - nextY));
     }
 
     IEnumerator FollowPath() 
