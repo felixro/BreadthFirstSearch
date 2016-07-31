@@ -15,7 +15,7 @@ public class BFS : MonoBehaviour
         frontier = new Queue<Cube>();
         visited = new List<Cube>();
 
-        gridCreator.AddNeighbours();
+        gridCreator.AddNeighbours(false);
 
         StartCoroutine("RunBFS");
     }

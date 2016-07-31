@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SceneSelector : MonoBehaviour 
 {
     public void LoadLevel(string name)
     {
-        Application.LoadLevel(name);
+        SceneManager.LoadScene(name);
     }
 }

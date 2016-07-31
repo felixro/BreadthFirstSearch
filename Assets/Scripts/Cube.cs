@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using felixro;
 
-public class Cube : MonoBehaviour 
+public class Cube : MonoBehaviour
 {    
-    private List<Cube> neighbours;
+    private Weight weight;
     private bool isObstacle;
+
+    private List<Cube> neighbours;
     private Renderer renderer;
 
     public void Awake()
     {
+        weight = new Weight(1, this);
+        isObstacle = false;
+
         neighbours = new List<Cube>();
         renderer = GetComponent<Renderer>();
     }
@@ -19,9 +26,9 @@ public class Cube : MonoBehaviour
         renderer.material.color = color;
     }
 
-    public void AddNeighbour(Cube cube)
+    public void AddNeighbour(Cube cube, bool canWalkThroughObstacles)
     {
-        if (!cube.isObstacle)
+        if (!cube.isObstacle || canWalkThroughObstacles)
         {
             neighbours.Add(cube);
         }
@@ -34,6 +41,7 @@ public class Cube : MonoBehaviour
 
     public void SetObstacle(Color color, int weight)
     {
+        this.weight.SetWeight(weight);
         this.isObstacle = true;
 
         PaintCube(color);
@@ -46,5 +54,15 @@ public class Cube : MonoBehaviour
     public bool IsObstacle()
     {
         return isObstacle;
+    }
+
+    public Weight GetWeight()
+    {
+        return weight;
+    }
+
+    public void SetWeight(int weight)
+    {
+        this.weight.SetWeight(weight);
     }
 }

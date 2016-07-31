@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using felixro;
 
 public class BFSPathfinding : MonoBehaviour 
 {
     public GridCreator gridCreator;
     public ColorPicker colorPicker;
 
-    private Queue<Cube> frontier;
+    private PriorityQueue<Weight> frontier;
     private Dictionary<Cube, Cube> cameFrom;
+    private Dictionary<Cube, int> costSoFar;
     private List<Cube> path;
 
     public void StartBFS()
     {
-        frontier = new Queue<Cube>();
+        frontier = new PriorityQueue<Weight>();
         cameFrom = new Dictionary<Cube, Cube>();
+        costSoFar = new Dictionary<Cube, int>();
 
-        gridCreator.AddNeighbours();
+        gridCreator.AddNeighbours(true);
 
         RunBFS();
     }
@@ -31,13 +34,14 @@ public class BFSPathfinding : MonoBehaviour
         Cube start = gridCreator.GetStartCube();
         Cube end = gridCreator.GetEndCube();
 
-        frontier.Enqueue(start);
+        frontier.Enqueue(start.GetWeight());
         cameFrom.Add(start, null);
+        costSoFar.Add(start, 0);
 
         Cube current = null;
-        while (frontier.Count != 0)
+        while (frontier.GetCount() != 0)
         {
-            current = frontier.Dequeue();
+            current = frontier.Dequeue().GetCube();
 
             if (current == end)
             {
@@ -47,14 +51,16 @@ public class BFSPathfinding : MonoBehaviour
             List<Cube> neighbours = current.GetNeighbours();
             neighbours.ForEach(delegate(Cube next)
             {
-                if (!cameFrom.ContainsKey(next))
+                int newCost = costSoFar[current] + next.GetWeight().GetWeight();
+
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
                 {
-                    frontier.Enqueue(next);
-                    cameFrom.Add(next, current);
-                    if (gridCreator.GetEndCube() != next)
-                    {
-                        next.PaintCube(colorPicker.GetVisitedColor());
-                    }
+                    costSoFar[next] = newCost;
+
+                    Weight newWeight = new Weight(newCost, next);
+
+                    frontier.Enqueue(newWeight);
+                    cameFrom[next] = current;
                 }
             });
         }

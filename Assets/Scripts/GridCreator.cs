@@ -67,7 +67,7 @@ public class GridCreator : MonoBehaviour
         });
     }
 
-    public void AddNeighbours()
+    public void AddNeighbours(bool canWalkThroughObstacles)
     {
         if (cubes.Length == 0)
         {
@@ -84,19 +84,19 @@ public class GridCreator : MonoBehaviour
 
                 if (i > 0)
                 {
-                    curCube.AddNeighbour(cubes[i-1,j]);
+                    curCube.AddNeighbour(cubes[i-1,j], canWalkThroughObstacles);
                 }
                 if (j > 0)
                 {
-                    curCube.AddNeighbour(cubes[i,j-1]);
+                    curCube.AddNeighbour(cubes[i,j-1], canWalkThroughObstacles);
                 }
                 if (i < width - 1)
                 {
-                    curCube.AddNeighbour(cubes[i+1,j]);
+                    curCube.AddNeighbour(cubes[i+1,j], canWalkThroughObstacles);
                 }
                 if (j < height - 1)
                 {
-                    curCube.AddNeighbour(cubes[i,j+1]);
+                    curCube.AddNeighbour(cubes[i,j+1], canWalkThroughObstacles);
                 }
             }
         }
