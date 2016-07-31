@@ -4,26 +4,27 @@ using System.Collections.Generic;
 using System;
 using felixro;
 
-public class Cube : MonoBehaviour
+public class Cube : MonoBehaviour , IComparable<Cube>
 {    
-    private Weight weight;
+    private int weight;
     private bool isObstacle;
 
     private List<Cube> neighbours;
-    private Renderer renderer;
+    private Renderer objRenderer;
 
     public void Awake()
     {
-        weight = new Weight(1, this);
+        weight = 1;
         isObstacle = false;
 
         neighbours = new List<Cube>();
-        renderer = GetComponent<Renderer>();
+        objRenderer = GetComponent<Renderer>();
     }
 
     public void PaintCube(Color color)
     {
-        renderer.material.color = color;
+        
+        objRenderer.material.color = color;
     }
 
     public void AddNeighbour(Cube cube, bool canWalkThroughObstacles)
@@ -41,7 +42,7 @@ public class Cube : MonoBehaviour
 
     public void SetObstacle(Color color, int weight)
     {
-        this.weight.SetWeight(weight);
+        this.weight = weight;
         this.isObstacle = true;
 
         PaintCube(color);
@@ -56,13 +57,35 @@ public class Cube : MonoBehaviour
         return isObstacle;
     }
 
-    public Weight GetWeight()
+    public int GetWeight()
     {
         return weight;
     }
 
     public void SetWeight(int weight)
     {
-        this.weight.SetWeight(weight);
+        this.weight = weight;
+    }
+
+    public int CompareTo(Cube obj) 
+    {
+        if (obj == null)
+        {
+            throw new ArgumentNullException();
+        };
+
+        int otherWeight = ((Cube)obj).GetWeight();
+
+        if (weight == otherWeight)
+        {
+            return 0;
+        }
+
+        if (weight > otherWeight)
+        {
+            return 1;
+        }
+
+        return -1;
     }
 }

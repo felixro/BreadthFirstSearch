@@ -8,14 +8,14 @@ public class BFSPathfinding : MonoBehaviour
     public GridCreator gridCreator;
     public ColorPicker colorPicker;
 
-    private PriorityQueue<Weight> frontier;
+    private PriorityQueue<Cube> frontier;
     private Dictionary<Cube, Cube> cameFrom;
     private Dictionary<Cube, int> costSoFar;
     private List<Cube> path;
 
     public void StartBFS()
     {
-        frontier = new PriorityQueue<Weight>();
+        frontier = new PriorityQueue<Cube>();
         cameFrom = new Dictionary<Cube, Cube>();
         costSoFar = new Dictionary<Cube, int>();
 
@@ -34,14 +34,14 @@ public class BFSPathfinding : MonoBehaviour
         Cube start = gridCreator.GetStartCube();
         Cube end = gridCreator.GetEndCube();
 
-        frontier.Enqueue(start.GetWeight());
+        frontier.Enqueue(start);
         cameFrom.Add(start, null);
         costSoFar.Add(start, 0);
 
         Cube current = null;
         while (frontier.GetCount() != 0)
         {
-            current = frontier.Dequeue().GetCube();
+            current = frontier.Dequeue();
 
             if (current == end)
             {
@@ -51,15 +51,15 @@ public class BFSPathfinding : MonoBehaviour
             List<Cube> neighbours = current.GetNeighbours();
             neighbours.ForEach(delegate(Cube next)
             {
-                int newCost = costSoFar[current] + next.GetWeight().GetWeight();
+                int newCost = costSoFar[current] + next.GetWeight();
 
                 if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
                 {
                     costSoFar[next] = newCost;
 
-                    Weight newWeight = new Weight(newCost, next);
+                    next.SetWeight(newCost);
 
-                    frontier.Enqueue(newWeight);
+                    frontier.Enqueue(next);
                     cameFrom[next] = current;
                 }
             });
